@@ -1,0 +1,107 @@
+<ng-include src=" 'server/edit.location.html' "></ng-include>
+<ng-include src=" 'common/tmp/group.html' "></ng-include>
+
+
+<div class="container-fluid" id="main-container">
+
+  <div class="table-responsive ual-table">
+
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>ServerName</th>
+        <th colspan="2">Port</th>
+        <th colspan="2">Env</th>
+        <th>分组</th>
+        <th class="addPng" ui-sref="pageTab.create_server()" title="添加">+</th>
+      </tr>
+      </thead>
+      <tbody ng-repeat="server in serverCtrl.servers">
+      <tr ng-if="allGroup || server.nginxGroup.nginxGroupId === chooseGroupId" ng-click="serverCtrl.showOrHide($index,$event)">
+        <td>{{server.domain}}</td>
+        <td colspan="2">{{server.port}}</td>
+        <td colspan="2">{{server.env}}</td>
+        <td>{{server.nginxGroup.groupName}}</td>
+        <td style="width: 100px">
+          <img class="settingImg" src="images/setting.png" data-toggle="modal"
+               ng-click="serverCtrl.getServerId($index,'setting',$event)" title="编辑">
+          &nbsp;&nbsp;&nbsp;
+          <span class="delPng" data-toggle="modal" ng-click="serverCtrl.getServerId($index,'del',$event)" title="删除">&times;</span>
+        </td>
+      </tr>
+      <tr ng-if="allGroup || server.nginxGroup.nginxGroupId === chooseGroupId">
+        <td colspan="7" style="padding: 0;border: none">
+          <div class="table-responsive showOrHide" style="height: 0;">
+            <table class="table table-hover inline-table">
+              <thead>
+              <tr>
+                <th>Match</th>
+                <th>Internal</th>
+                <th>Rewrite</th>
+                <th>Upstream</th>
+                <th>Lua</th>
+                <th>Include</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="location in server.locations">
+                <td colspan="1">{{location.urimatch}}</td>
+                <td>{{location.internal ? true : false}}</td>
+                <td>{{location.rewrite}}</td>
+                <td>{{location.upstream.serviceName}}</td>
+                <td>{{location.lua.fileName}}</td>
+                <td>{{location.include}}</td>
+                <!--<td style="cursor: pointer" data-toggle="modal" ><img class="settingImg" src="../images/setting.png"></td>-->
+                <td style="text-align: right;width: 100px">
+                  <img class="settingImg" src="images/setting.png" data-toggle="modal"
+                       ng-click="serverCtrl.getServerLocation(server,location,$index,'edit')" title="编辑">
+                  &nbsp;&nbsp;&nbsp;
+                  <img class="unlockImg" src="images/unlock.png" data-toggle="modal"
+                       ng-click="serverCtrl.getServerLocation(server,location,$index,'unlock')" title="删除">
+                  <!--<button type="button" class="btn" data-toggle="modal" style="background-color: #e0e0e0"-->
+                          <!--ng-click="getServerLocation(server,location,$index)">unlock</button>-->
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!--删除server modal-->
+  <div class="modal fade" id="server-del" tabindex="-1" role="dialog"
+       aria-labelledby="serverDelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="serverDelLabel">
+            删除server
+          </h4>
+        </div>
+        <div class="modal-body">
+          确定删除{{serverCtrl.serverItem.domain}}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="serverCtrl.delServer(serverCtrl.serverItem.serverId)">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

@@ -1,0 +1,38 @@
+<ng-include src=" 'location/location.modal.html' "></ng-include>
+<div class="container-fluid" id="main-container" >
+
+  <div class="table-responsive ual-table">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Match</th>
+        <th>Internal</th>
+        <th>Rewrite</th>
+        <th>Upstream</th>
+        <th>Lua</th>
+        <th>Include</th>
+        <th class="addPng" style="text-align: left" data-toggle="modal" data-target="#location" title="添加">+</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="location in locationCtrl.locations">
+        <td colspan="1">{{location.urimatch}}</td>
+        <td>{{location.internal ? true : false}}</td>
+        <td>{{location.rewrite}}</td>
+        <td>{{location.upstream.serviceName}}</td>
+        <td>{{location.lua.fileName}}</td>
+        <td>{{location.include}}</td>
+        <!--<td style="cursor: pointer" data-toggle="modal" ><img class="settingImg" src="../images/setting.png"></td>-->
+        <td style="text-align: left;width: 100px" >
+          <img class="settingImg" src="images/setting.png" data-toggle="modal" ng-click="locationCtrl.getLocationId($index,'setting')" title="编辑">
+          &nbsp;&nbsp;&nbsp;
+          <span class="delPng" data-toggle="modal" ng-click="locationCtrl.getLocationId($index,'del')" title="删除">&times;</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

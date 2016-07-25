@@ -1,0 +1,221 @@
+
+<!--添加location modal-->
+<div class="modal fade" id="location" tabindex="-1" role="dialog"
+     aria-labelledby="locationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="locationLabel">
+          新建location
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name="locationForm">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Match：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationItem.urimatch" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Internal：</label>
+
+            <div class="col-sm-10">
+              <input type="checkbox" ng-model="locationCtrl.locationItem.internal">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Include：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationItem.include">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Rewrite：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationItem.rewrite">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Upstream：</label>
+
+            <div class="col-sm-10">
+              <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+              <select ng-model="locationCtrl.locationItem.upstreamId"  class="form-control" >
+                <option value="">--请选择--</option>
+                <option ng-repeat="upstream in locationCtrl.upstreams" value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Lua：</label>
+
+            <div class="col-sm-10">
+              <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+              <select ng-model="locationCtrl.locationItem.luaId"  class="form-control">
+                <option value="">--请选择--</option>
+                <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}">{{lua.fileName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">DefaultType：</label>
+
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.defaultType"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Excmd：</label>
+
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.excmd"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="locationCtrl.addLocation()" ng-disabled="locationForm.$invalid">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--删除location modal-->
+<div class="modal fade" id="location-del" tabindex="-1" role="dialog"
+     aria-labelledby="locationDelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="locationDelLabel">
+          删除location
+        </h4>
+      </div>
+      <div class="modal-body">
+        确定删除{{locationCtrl.locationModal.urimatch}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="locationCtrl.delLocation(locationCtrl.locationModal.locationId)">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--编辑location modal-->
+<div class="modal fade" id="location-setting" tabindex="-1" role="dialog"
+     aria-labelledby="locationSettingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="locationSettingLabel">
+          新建location
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Match：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.urimatch" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Internal：</label>
+
+            <div class="col-sm-10">
+              <input type="checkbox" ng-model="locationCtrl.locationModal.internal">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Include：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.include">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Rewrite：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.rewrite">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Upstream：</label>
+
+            <div class="col-sm-10">
+              <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+              <select ng-model="locationCtrl.locationModal.upstream.upstreamId"  class="form-control" >
+                <option value="">--请选择--</option>
+                <option ng-repeat="upstream in locationCtrl.upstreams"
+                        ng-selected="locationCtrl.locationModal.upstream.upstreamId == upstream.upstreamId"
+                        value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Lua：</label>
+
+            <div class="col-sm-10">
+              <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+              <select ng-model="locationModal.lua.luaId"  class="form-control">
+                <option value="">--请选择--</option>
+                <option ng-repeat="lua in locationCtrl.luas"
+                        ng-selected="locationCtrl.locationModal.lua.luaId == lua.luaId"
+                        value="{{lua.luaId}}">{{lua.fileName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">DefaultType：</label>
+
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationModal.defaultType"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Excmd：</label>
+
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationModal.excmd"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="locationCtrl.editLocation(locationCtrl.locationModal)">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

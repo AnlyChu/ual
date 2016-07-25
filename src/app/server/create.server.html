@@ -1,0 +1,221 @@
+<div class="container-fluid" id="main-container">
+  <div class="table-responsive ual-table">
+    <form class="form-horizontal" name="serverForm" ng-if="!serverCtrl.bindLocation">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">ServerName：</label>
+
+        <div class="col-sm-2">
+          <input type="text" class="form-control" ng-model="serverCtrl.serverItem.domain" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Port：</label>
+
+        <div class="col-sm-2">
+          <input type="number" class="form-control" name="portInput" ng-model="serverCtrl.serverItem.port" min="1" max="65535" required>
+        </div>
+        <div class="col-sm-2 tipTxt" ng-if="serverForm.portInput.$invalid && serverForm.portInput.$dirty">
+          Port should in 1 - 65535
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Env：</label>
+
+        <div class="col-sm-4">
+          <input type="text" class="form-control" ng-model="serverCtrl.serverItem.env">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Group：</label>
+
+        <div class="col-sm-4">
+          <select ng-model="serverCtrl.serverItem.nginxGroupId" class="form-control">
+            <option value="">--请选择--</option>
+            <option ng-repeat="group in serverCtrl.nginxGroups" value="{{group.nginxGroupId}}">{{group.groupName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Header：</label>
+
+        <div class="col-sm-10">
+          <textarea type="text" class="form-control textarea-server" ng-model="serverCtrl.serverItem.header"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer footer-btn" ng-if="!serverCtrl.bindLocation">
+        <button type="button" class="btn btn-default"
+                ui-sref="pageTab.server()">取消
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="serverCtrl.addServe()"
+                ng-disabled="serverForm.$invalid">
+          下一步
+        </button>
+      </div>
+    </form>
+
+
+    <table class="table table-hover" ng-if="serverCtrl.bindLocation">
+      <thead>
+      <tr>
+        <th>Match</th>
+        <th>Internal</th>
+        <th>Rewrite</th>
+        <th>Upstream</th>
+        <th>Lua</th>
+        <th>Include</th>
+        <th class="addPng" data-toggle="modal" data-target="#server-location" title="添加">+</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="location in serverCtrl.locationsChoose">
+        <td colspan="1">{{location.urimatch}}</td>
+        <td>{{location.internal ? true : false}}</td>
+        <td>{{location.rewrite}}</td>
+        <td>{{location.upstream.serviceName}}</td>
+        <td>{{location.lua.fileName}}</td>
+        <td>{{location.include}}</td>
+        <!--<td style="cursor: pointer" data-toggle="modal" ><img class="settingImg" src="../images/setting.png"></td>-->
+        <td style="text-align: right;cursor: pointer;width: 100px">
+          <img class="settingImg" src="images/setting.png" data-toggle="modal"
+               ng-click="serverCtrl.getLocationId($index,'setting')" title="编辑">
+          &nbsp;&nbsp;&nbsp;
+          <span class="delPng" data-toggle="modal" ng-click="serverCtrl.getLocationId($index,'del')" title="解绑">&times;</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="modal-footer footer-btn" ng-if="serverCtrl.bindLocation">
+      <button type="button" class="btn btn-default"
+              ng-click="serverCtrl.goBack()">上一步
+      </button>
+      <button type="button" class="btn btn-primary" ui-sref="pageTab.server()">
+        完成
+      </button>
+    </div>
+  </div>
+
+  <!--绑定location modal-->
+  <div class="modal fade" id="server-location" tabindex="-1" role="dialog"
+       aria-labelledby="serverLocationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="serverLocationLabel">
+            绑定location
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" name="locationServerForm">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Type：</label>
+
+              <div class="col-sm-4">
+                <input type="radio" name="type" id="type0" value="0" ng-model="serverCtrl.serverLocation.type">
+                <label class="control-label" for="type0">公共服务</label>
+
+                <input type="radio" name="type" id="type1" value="1" ng-model="serverCtrl.serverLocation.type">
+                <label class="control-label" for="type1">私有服务</label>
+              </div>
+              <label class="col-sm-2 control-label">Location：</label>
+
+              <div class="col-sm-4">
+
+                <select ng-change="serverCtrl.changeLocation(index)" ng-model="serverCtrl.index" class="form-control">
+                  <option value="">--请选择--</option>
+                  <option ng-repeat="location in serverCtrl.locations" value="{{$index}}">{{location.urimatch}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Match：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="serverCtrl.locationItem.urimatch" required disabled="disabled">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Internal：</label>
+
+              <div class="col-sm-10">
+                <input type="checkbox" ng-model="serverCtrl.locationItem.internal" disabled="disabled">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Include：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="serverCtrl.locationItem.include" disabled="disabled">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Rewrite：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="serverCtrl.locationItem.rewrite" disabled="disabled">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Upstream：</label>
+
+              <div class="col-sm-10">
+                <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+                <select ng-model="serverCtrl.locationItem.upstreamId" class="form-control" disabled="disabled">
+                  <option value="">--请选择--</option>
+                  <option ng-repeat="upstream in serverCtrl.upstreams"
+                          ng-selected="serverCtrl.locationItem.upstream.upstreamId == upstream.upstreamId"
+                          value="{{upstream.upstreamId}}" disabled="disabled">{{upstream.serviceName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Lua：</label>
+
+              <div class="col-sm-10">
+                <select ng-model="serverCtrl.locationItem.luaId" class="form-control" disabled="disabled">
+                  <option>--请选择--</option>
+                  <option ng-repeat="lua in serverCtrl.luas"
+                          ng-selected="serverCtrl.locationItem.lua.luaId == lua.luaId"
+                          value="{{lua.luaId}}">{{lua.fileName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">DefaultType：</label>
+
+              <div class="col-sm-10">
+                <textarea type="text" class="form-control textarea-modal"
+                          ng-model="serverCtrl.locationItem.defaultType" disabled="disabled"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Excmd：</label>
+
+              <div class="col-sm-10">
+                <textarea type="text" class="form-control textarea-modal" ng-model="serverCtrl.locationItem.excmd"
+                          disabled="disabled"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="serverCtrl.serverBindLocation()"
+                  ng-disabled="locationServerForm.$invalid">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

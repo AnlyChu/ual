@@ -1,0 +1,17 @@
+<div ng-controller="leftCtrl">
+  <div class="left-nav">
+    <ul class="list-group">
+      <li class="list-group-item">{{navTxt}}</li>
+    </ul>
+  </div>
+  <div class="left">
+    <ul class="list-group">
+      <li class="list-group-item" ui-sref=".upstream()" ui-sref-active="left-choose" ng-click="navHeader('upstream')">upstream</li>
+      <li class="list-group-item" ui-sref=".location()" ui-sref-active="left-choose" ng-click="navHeader('location')">location</li>
+      <li class="list-group-item" ui-sref=".nginx()" ui-sref-active="left-choose" ng-click="navHeader('nginx')">nginx</li>
+      <li class="list-group-item" ui-sref=".server()" ui-sref-active="left-choose" ng-click="navHeader('server')">server</li>
+      <li class="list-group-item" ui-sref=".lua()" ui-sref-active="left-choose" ng-click="navHeader('lua')">lua</li>
+      <li class="list-group-item" ui-sref=".consul()" ui-sref-active="left-choose" ng-click="navHeader('consul')">consul</li>
+    </ul>
+  </div>
+</div>

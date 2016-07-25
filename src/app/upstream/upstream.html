@@ -1,0 +1,170 @@
+
+<div class="container-fluid" id="main-container" >
+
+  <div class="table-responsive ual-table">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>名称</th>
+        <th>节点</th>
+        <th class="addPng" data-toggle="modal" data-target="#upstream" title="添加">+</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="upstream in upstreamCtrl.upstreams">
+        <td>{{upstream.serviceName}}</td>
+        <td>{{upstream.nodes}}</td>
+        <!--<td style="cursor: pointer" data-toggle="modal" ><img class="settingImg" src="../images/setting.png"></td>-->
+        <td style="width: 100px" >
+          <img class="settingImg" src="images/setting.png" data-toggle="modal" ng-click="upstreamCtrl.getUpstreamId($index,'setting')" title="编辑">
+          &nbsp;&nbsp;&nbsp;
+          <span class="delPng" data-toggle="modal" ng-click="upstreamCtrl.getUpstreamId($index,'del')" title="删除">&times;</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!--添加upstream modal-->
+  <div class="modal fade" id="upstream" tabindex="-1" role="dialog"
+       aria-labelledby="upstreamLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="upstreamLabel">
+            新建upstream
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" name="upstreamForm">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">服务名称：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">节点：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamNodes">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">负载均衡：</label>
+
+              <div class="col-sm-10">
+                <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+                <select ng-model="upstreamCtrl.upstreamBalancing"  class="form-control">
+                  <option value="">-请选择-</option>
+                  <option value="least_conn">least_conn</option>
+                  <option value="ip_hash">ip_hash</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.addUpstream()" ng-disabled="upstreamForm.$invalid">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--删除upstream modal-->
+  <div class="modal fade" id="upstream-del" tabindex="-1" role="dialog"
+       aria-labelledby="upstreamDelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="upstreamDelLabel">
+            删除upstream
+          </h4>
+        </div>
+        <div class="modal-body">
+          确定删除{{upstreamCtrl.upstreamModal.serviceName}}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.delUpstream(upstreamCtrl.upstreamModal.upstreamId)">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--编辑upstream modal-->
+  <div class="modal fade" id="upstream-setting" tabindex="-1" role="dialog"
+       aria-labelledby="upstreamSettingLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="upstreamSettingLabel">
+            编辑upstream
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" name="upstreamEditForm">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">服务名称：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control"  ng-model="upstreamCtrl.upstreamModal.serviceName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">节点：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamModal.nodes">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">负载均衡：</label>
+
+              <div class="col-sm-10">
+                <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+                <select ng-model="upstreamCtrl.upstreamModal.balancing"  class="form-control">
+                  <option value="">--请选择--</option>
+                  <option value="least_conn">least_conn</option>
+                  <option value="ip_hash">ip_hash</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.editUpstream(upstreamCtrl.upstreamModal)" ng-disabled="upstreamEditForm.$invalid">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

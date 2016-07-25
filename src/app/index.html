@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="UAL">
+<head lang="en" >
+  <meta charset="UTF-8">
+  <title>UAL</title>
+
+  <!--<link href="../lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet"/>-->
+  <!--<link href="common/login/login.css" rel="stylesheet"/>-->
+  <!--<link href="ual.css" rel="stylesheet"/>-->
+
+  <!--<link rel="stylesheet" href="dist/ual.min.css"/>-->
+
+  <!--<script src="dist/lib.min.js"></script>-->
+
+  <!--<script src="../lib/angular/angular.min.js"></script>-->
+  <!--<script src="../lib/jquery/jquery-1.11.1.min.js"></script>-->
+  <!--<script src="../lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>-->
+  <!--<script src="../lib/angular-animate/angular-animate.min.js"></script>-->
+  <!--<script src="../lib/angular-ui-router/angular-ui-router.min.js"></script>-->
+  <!--<script src="../lib/angular-resource/angular-resource.min.js"></script>-->
+  <!--<script src="app.js"></script>-->
+  <!--<script src="common/API/api.js"></script>-->
+  <!--<script src="consul/consulCtrl.js"></script>-->
+  <!--<script src="server/serverCtrl.js"></script>-->
+  <!--<script src="location/locationCtrl.js"></script>-->
+  <!--<script src="lua/luaCtrl.js"></script>-->
+  <!--<script src="nginx/nginxCtrl.js"></script>-->
+  <!--<script src="upstream/upstreamCtrl.js"></script>-->
+  <!--<script src="common/left/leftCtrl.js"></script>-->
+  <!--<script src="common/tmp/groupCtrl.js"></script>-->
+  <!--<script src="common/service.js"></script>-->
+  <!--<script src="common/directive.js"></script>-->
+  <!--<script src="dist/ual.min.js"></script>-->
+  <script src="../dist/webpack/bundle.js"></script>
+
+</head>
+<body ng-controller="mainCtrl as mian">
+
+<div>
+  <div ui-view></div>
+  <tip class="alert_tip" message="mian.tipService.message" type="mian.tipService.type"></tip>
+
+</div>
+
+<!--<div ng-show="loading" class="loading"><i></i>加载中...</div>-->
+
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<meta charset="UTF-8">
+<div class="header" ng-controller="loginCtrl">
+  <div class="w1000 header-container">
+    <div id="logo"><span>数云</span> | <a>UAL</a></div>
+
+    <div class="headerMenu">
+      <a class="contactUs"
+         href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&amp;key=XzgwMDAxNjE3N18yNDMzNjRfODAwMDE2MTc3XzJf"
+         target="_blank" title="联系我们">联系我们</a>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="w1000 clearfix login-wrapper">
+    <div class="loginBox">
+      <form id="shuyunLogin" class="ng-valid ng-dirty">
+        <!--<p>请登录</p>-->
+        <div class="userName loginInputWrapper">
+          <input class="borderHighlight ng-valid ng-dirty" type="text"
+                 name="name" placeholder="账号" ng-model="loginData.userName" id="userName">
+          <i></i>
+        </div>
+        <div class="userPassWord loginInputWrapper">
+          <input class="borderHighlight ng-valid ng-dirty" type="password" name="password" placeholder="密码"
+                 id="password" ng-model="loginData.password">
+          <i></i>
+        </div>
+        <div class="record"><label><input type="checkbox" />Remember my login on this computer</label></div>
+        <div class="errorMark ng-binding" ng-show="errorMarkFlag" style="display: none;">
+        <div></div>
+        </div>
+
+        <div class="subBtn">
+          <a href="javascript:void(0)" ng-click="loginMethod();">Login in</a>
+        </div>
+      </form>
+
+    </div>
+    <div class="loginBoxBg"></div>
+  </div>
+</div>
+<div class="bg">
+  <img width="100%" src="images/bg.png">
+</div>
+<div class="footer">
+  <div class="">
+    <!--<p class="contactNum">联系电话：400-027-0163</p>-->
+
+    <p class="markInfo">Copyright © 2015-2016 Aqz Co.,Ltd All Rights Reserved.</p>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="alert alert-{{ctrl.type || 'info'}}" ng-show="ctrl.message">
+  <button type="button" class="close"  ng-click="ctrl.hideAlert()">
+    <span class="glyphicon glyphicon-remove"></span>
+  </button>
+  {{ctrl.message}}
+</div>

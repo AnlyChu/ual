@@ -1,0 +1,124 @@
+
+<!--添加nginxGroup modal-->
+<div class="modal fade" id="nginxGroup" tabindex="-1" role="dialog"
+     aria-labelledby="nginxGroupLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="nginxGroupLabel">
+          添加配置组
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name="nginxGroupForm">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">名称：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="group.nginxGroupItem.groupName" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Consul：</label>
+
+            <div class="col-sm-10">
+              <select ng-model="group.nginxGroupItem.consulId"  class="form-control" >
+                <option value="">--请选择--</option>
+                <option ng-repeat="consul in group.consuls" value="{{consul.consulId}}">{{consul.consulName}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="group.addNginxGroup()" ng-disabled="nginxGroupForm.$invalid">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--编辑nginxGroup modal-->
+<div class="modal fade" id="nginxGroup-edit" tabindex="-1" role="dialog"
+     aria-labelledby="nginxGroupEditLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="nginxGroupEditLabel">
+          编辑配置组
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name="nginxGroupForm">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">名称：</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="group.nginxGroupItem.groupName" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Consul：</label>
+
+            <div class="col-sm-10">
+              <select ng-model="group.nginxGroupItem.consulId"  class="form-control" >
+                <option value="">--请选择--</option>
+                <option ng-repeat="consul in group.consuls" ng-selected="consul.consulId == group.nginxGroupItem.consul.consulId" value="{{consul.consulId}}">{{consul.consulName}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="group.editNginxGroup(group.nginxGroupItem)" ng-disabled="nginxGroupForm.$invalid">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--删除nginxGroup modal-->
+<div class="modal fade" id="nginxGroup-del" tabindex="-1" role="dialog"
+     aria-labelledby="nginxGroupDelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="nginxGroupDelLabel">
+          删除nginxGroup
+        </h4>
+      </div>
+      <div class="modal-body">
+        确定删除{{group.nginxGroupItem.groupName}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="group.delNginxGroup(group.nginxGroupItem.nginxGroupId)">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

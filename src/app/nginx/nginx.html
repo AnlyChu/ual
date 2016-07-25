@@ -1,0 +1,112 @@
+<ng-include src=" 'common/tmp/group.html' "></ng-include>
+
+<div class="container-fluid" id="main-container">
+
+  <div class="table-responsive ual-table">
+
+
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>主机名</th>
+        <th>分组</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="nginx in nginxCtrl.nginxs" ng-if="allGroup || nginx.nginxGroup.nginxGroupId === chooseGroupId">
+        <td>{{nginx.hostName}}</td>
+        <td>{{nginx.nginxGroup.groupName}}</td>
+        <td style="text-align: right;width: 100px">
+          <img class="settingImg" src="images/setting.png" data-toggle="modal"
+               ng-click="nginxCtrl.getNginxId($index,'setting',$event)" title="编辑">
+          &nbsp;&nbsp;&nbsp;
+          <span class="delPng" data-toggle="modal" ng-click="nginxCtrl.getNginxId($index,'del',$event)" title="删除">&times;</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!--编辑nginx modal-->
+  <div class="modal fade" id="nginx-edit" tabindex="-1" role="dialog"
+       aria-labelledby="nginxEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="nginxEditLabel">
+            编辑nginx
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">主机名：</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="nginxCtrl.nginxItem.hostName" required ng-disabled="true">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">分组：</label>
+
+              <div class="col-sm-10">
+                <select ng-model="nginxCtrl.nginxItem.nginxGroup.nginxGroupId" class="form-control">
+                  <option value="">--请选择--</option>
+                  <option ng-repeat="nginxGroup in nginxGroups"
+                          ng-selected="nginxGroup.nginxGroupId == nginxCtrl.nginxItem.nginxGroup.nginxGroupId"
+                          value="{{nginxGroup.nginxGroupId}}">{{nginxGroup.groupName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="nginxCtrl.editNginx(nginxCtrl.nginxItem)">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--解绑nginx modal-->
+  <div class="modal fade" id="nginx-del" tabindex="-1" role="dialog"
+       aria-labelledby="nginxDelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+                  data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="nginxDelLabel">
+            解绑nginx
+          </h4>
+        </div>
+        <div class="modal-body">
+          将{{nginxCtrl.nginxItem.hostName}}从分组{{nginxCtrl.nginxItem.nginxGroup.groupName}}中解绑?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default"
+                  data-dismiss="modal">关闭
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="nginxCtrl.editNginx(nginxCtrl.nginxItem)">
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
