@@ -1,24 +1,57 @@
-
-<div class="container-fluid" id="main-container" >
+<div class="container-fluid" id="main-container">
 
   <div class="table-responsive ual-table">
     <table class="table table-hover">
       <thead>
       <tr>
-        <th>名称</th>
-        <th>节点</th>
-        <th class="addPng" data-toggle="modal" data-target="#upstream" title="添加">+</th>
+        <th>后端服务名称</th>
+        <th>负载策略</th>
+        <th>保持连接数</th>
+        <th>
+          <img src="images/add.png" alt="add" class="addPng" data-toggle="modal" data-target="#upstream" title="添加"/>
+        </th>
       </tr>
       </thead>
-      <tbody>
-      <tr ng-repeat="upstream in upstreamCtrl.upstreams">
+      <tbody ng-repeat="upstream in upstreamCtrl.upstreams">
+      <tr>
         <td>{{upstream.serviceName}}</td>
-        <td>{{upstream.nodes}}</td>
+        <td>{{upstream.balancing}}</td>
+        <td>{{upstream.keepalive}}</td>
+
         <!--<td style="cursor: pointer" data-toggle="modal" ><img class="settingImg" src="../images/setting.png"></td>-->
-        <td style="width: 100px" >
-          <img class="settingImg" src="images/setting.png" data-toggle="modal" ng-click="upstreamCtrl.getUpstreamId($index,'setting')" title="编辑">
+        <td style="width: 100px">
+          <img class="settingImg" src="images/setting.png" data-toggle="modal"
+               ng-click="upstreamCtrl.getUpstreamId($index,'setting')" title="编辑">
           &nbsp;&nbsp;&nbsp;
-          <span class="delPng" data-toggle="modal" ng-click="upstreamCtrl.getUpstreamId($index,'del')" title="删除">&times;</span>
+          <img src="images/del_gray.png" alt="del" class="delPng" data-toggle="modal"
+               ng-click="upstreamCtrl.getUpstreamId($index,'del')"
+               title="删除"/>
+        </td>
+      </tr>
+      <tr class="intable">
+        <td colspan="4">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>目标地址</th>
+              <th>端口号</th>
+              <th>权重</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="node in upstream.nodeList" >
+              <td>{{node.split(':')[0]}}</td>
+              <td>{{node.split(':')[1]}}</td>
+              <td>{{node.split(':')[2]}}</td>
+              <td style="width: 100px">
+                <img src="images/del_gray.png" alt="del" class="delPng" data-toggle="modal"
+                     ng-click="upstreamCtrl.getUpstreamId($index,'del')"
+                     title="删除"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
       </tbody>
@@ -37,36 +70,74 @@
             &times;
           </button>
           <h4 class="modal-title" id="upstreamLabel">
-            新建upstream
+            新建后端服务
           </h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" name="upstreamForm">
             <div class="form-group">
-              <label class="col-sm-2 control-label">服务名称：</label>
+              <label class="col-sm-3 control-label">服务名称：</label>
 
-              <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamName" required>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamItem.serviceName" required>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">节点：</label>
+              <label class="col-sm-3 control-label">负载均衡：</label>
 
-              <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamNodes">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">负载均衡：</label>
-
-              <div class="col-sm-10">
-                <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-                <select ng-model="upstreamCtrl.upstreamBalancing"  class="form-control">
+              <div class="col-sm-4">
+                <select ng-model="upstreamCtrl.upstreamItem.balancing" class="form-control">
                   <option value="">-请选择-</option>
+                  <option value="round_robin">round_robin</option>
                   <option value="least_conn">least_conn</option>
                   <option value="ip_hash">ip_hash</option>
                 </select>
               </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">节点列表：</label>
+
+              <div class="col-sm-9">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th class="model-th">目标主机</th>
+                    <th class="model-th">端口</th>
+                    <th class="model-th">权重</th>
+                    <th class="model-th">
+                      <img src="images/add.png" alt="add" class="addPng" ng-click="upstreamCtrl.addNode()" title="添加"/>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="node in upstreamCtrl.nodeArrayItem" class="nodeList">
+                    <td>
+                      <input type="text" class="form-control " ng-model="node.address">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" ng-model="node.port">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" ng-model="node.weight">
+                    </td>
+                    <td style="vertical-align: middle">
+                      <img src="images/del_gray.png" alt="del" class="delPng" data-toggle="modal"
+                           ng-click="upstreamCtrl.popNode($index)"
+                           ng-show="upstreamCtrl.nodeArray.length > 1"
+                           title="删除"/>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">连接保持：</label>
+
+              <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamItem.keepalive">
+              </div>
+              <div class="col-sm-2 control-label">(连接数)</div>
             </div>
           </form>
         </div>
@@ -74,7 +145,8 @@
           <button type="button" class="btn btn-default"
                   data-dismiss="modal">关闭
           </button>
-          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.addUpstream()" ng-disabled="upstreamForm.$invalid">
+          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.addUpstream()"
+                  ng-disabled="upstreamForm.$invalid">
             确认
           </button>
         </div>
@@ -103,7 +175,8 @@
           <button type="button" class="btn btn-default"
                   data-dismiss="modal">关闭
           </button>
-          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.delUpstream(upstreamCtrl.upstreamModal.upstreamId)">
+          <button type="button" class="btn btn-primary"
+                  ng-click="upstreamCtrl.delUpstream(upstreamCtrl.upstreamModal.upstreamId)">
             确认
           </button>
         </div>
@@ -122,36 +195,74 @@
             &times;
           </button>
           <h4 class="modal-title" id="upstreamSettingLabel">
-            编辑upstream
+            编辑后端服务
           </h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" name="upstreamEditForm">
             <div class="form-group">
-              <label class="col-sm-2 control-label">服务名称：</label>
+              <label class="col-sm-3 control-label">服务名称：</label>
 
-              <div class="col-sm-10">
-                <input type="text" class="form-control"  ng-model="upstreamCtrl.upstreamModal.serviceName" required>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamModal.serviceName" required>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">节点：</label>
+              <label class="col-sm-3 control-label">负载均衡：</label>
 
-              <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamModal.nodes">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">负载均衡：</label>
-
-              <div class="col-sm-10">
-                <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-                <select ng-model="upstreamCtrl.upstreamModal.balancing"  class="form-control">
-                  <option value="">--请选择--</option>
+              <div class="col-sm-4">
+                <select ng-model="upstreamCtrl.upstreamModal.balancing" class="form-control">
+                  <option value="">-请选择-</option>
+                  <option value="round_robin">round_robin</option>
                   <option value="least_conn">least_conn</option>
                   <option value="ip_hash">ip_hash</option>
                 </select>
               </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">节点列表：</label>
+
+              <div class="col-sm-9">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th class="model-th">目标主机</th>
+                    <th class="model-th">端口</th>
+                    <th class="model-th">权重</th>
+                    <th class="model-th">
+                      <img src="images/add.png" alt="add" class="addPng" ng-click="upstreamCtrl.addNode()" title="添加"/>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="node in upstreamCtrl.nodeArray" class="nodeList">
+                    <td>
+                      <input type="text" class="form-control " ng-model="node.address">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" ng-model="node.port">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" ng-model="node.weight">
+                    </td>
+                    <td style="vertical-align: middle">
+                      <img src="images/del_gray.png" alt="del" class="delPng" data-toggle="modal"
+                           ng-click="upstreamCtrl.popNode($index)"
+                           ng-show="upstreamCtrl.nodeArray.length > 1"
+                           title="删除"/>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">连接保持：</label>
+
+              <div class="col-sm-3">
+                <input type="text" class="form-control" ng-model="upstreamCtrl.upstreamModal.keepalive">
+              </div>
+              <div class="col-sm-2 control-label">(连接数)</div>
             </div>
           </form>
         </div>
@@ -159,7 +270,8 @@
           <button type="button" class="btn btn-default"
                   data-dismiss="modal">关闭
           </button>
-          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.editUpstream(upstreamCtrl.upstreamModal)" ng-disabled="upstreamEditForm.$invalid">
+          <button type="button" class="btn btn-primary" ng-click="upstreamCtrl.editUpstream(upstreamCtrl.upstreamModal)"
+                  ng-disabled="upstreamEditForm.$invalid">
             确认
           </button>
         </div>

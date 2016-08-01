@@ -299,3 +299,11 @@ a:focus {
 .model-input {
     border: 0;
 }
+
+.intable:hover{
+    background-color: #fff !important;
+}
+.nodeList>td{
+    padding: 5px !important;
+    border: none !important;
+}
