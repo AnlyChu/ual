@@ -10,57 +10,68 @@ import {Inject} from 'angular-es-utils';
 class luaCtrl {
 	constructor() {
 		let luaScope = this;
+		luaScope.luaEditInfo = {};
+		luaScope.isEdit = true;
+		luaScope.initLua();
 		luaScope.getLuas();
-		luaScope.isEdit = false;
-		luaScope.isAdd = false;
 	}
 
 	getLuas(lua) {
 		let luaScope = this;
+		let leftNavText = this._services.leftNavText;
 		let api = this._API;
 		api.getLua.get({}, (data) => {
 			luaScope.luas = data.luas;
 			if (lua) {
-				luaScope.luaAllInfo = lua;
+				Object.assign(luaScope.luaAllInfo, lua);
+				Object.assign(luaScope.luaEditInfo, lua);
 			} else {
-				luaScope.luaAllInfo = luaScope.luas[0];
+				Object.assign(luaScope.luaAllInfo, luaScope.luas[0]);
+				Object.assign(luaScope.luaEditInfo, luaScope.luas[0]);
+				leftNavText.setText(luaScope.luaAllInfo.name);
 			}
 		});
 	}
 
 	luaInfo(index, event) {
 		let luaScope = this;
-		var other = document.querySelectorAll('.list-group-item');
-		for (var i = 0, len = other.length; i < len; i++) {
+		let leftNavText = this._services.leftNavText;
+		let other = document.querySelectorAll('.list-group-item');
+		for (let i = 0, len = other.length; i < len; i++) {
 			if (other[i] != event.target) {
 				if (other[i].className.indexOf('active') > -1) {
-					other[i].className = 'list-group-item';
+					other[i].className = 'list-group-item lua';
 				}
 			}
 		}
+
+		leftNavText.setText($(event.target).text());
 		$(event.target).addClass('active');
-		luaScope.isEdit = false;
-		luaScope.isAdd = false;
-		luaScope.luaAllInfo = luaScope.luas[index];
+		Object.assign(luaScope.luaAllInfo, luaScope.luas[index]);
+		Object.assign(luaScope.luaEditInfo, luaScope.luas[index]);
 	}
 
 
-	initLua(type) {
+	initLua() {
 		let luaScope = this;
-		luaScope.isEdit = false;
-		luaScope.isAdd = false;
-		if (type === 'add') {
-			luaScope.isAdd = true;
-			luaScope.luaAllInfo = {
-				fileName: '',
-				descr: '',
-				content: ''
-			};
-		} else if (type === 'edit') {
-			luaScope.isEdit = true;
-		} else if (type === 'esc') {
-			luaScope.luaAllInfo = luaScope.luas[0];
-		}
+
+		luaScope.luaAllInfo = {
+			name: '',
+			fileName: '',
+			descr: '',
+			content: '',
+			type: 'auth',
+			stage: 'rewrite'
+		};
+
+		luaScope.luaItem = {
+			name: '',
+			fileName: '',
+			descr: '',
+			content: '',
+			type: 'auth',
+			stage: 'rewrite'
+		};
 	}
 
 	addLua() {
@@ -68,7 +79,8 @@ class luaCtrl {
 		let api = this._API;
 		let TipService = this._services.TipService;
 		api.lua.save({},
-			luaScope.luaAllInfo, (data) => {
+			luaScope.luaItem, (data) => {
+				$('#lua-add').modal('hide');
 				if (data.status) {
 					TipService.setMessage('添加成功', 'success');
 				} else {
@@ -97,27 +109,28 @@ class luaCtrl {
 		})
 	}
 
-	editLua(luaAllInfo) {
+	editLua(luaEditInfo) {
 		let luaScope = this;
 		let api = this._API;
 		let TipService = this._services.TipService;
 		api.lua.update({},
-			luaAllInfo, (data) => {
+			luaEditInfo, (data) => {
+				$('#lua-edit').modal('hide');
 				if (data.status) {
 					TipService.setMessage('修改成功', 'success');
 				} else {
 					TipService.setMessage('修改失败', 'danger');
 				}
-				luaScope.initLua();
-				luaScope.getLuas(luaAllInfo);
+				luaScope.getLuas(luaEditInfo);
 			}, () => {
+				$('#lua-edit').modal('hide');
 				TipService.setMessage('修改失败', 'danger');
-				luaScope.getLuas();
+				luaScope.getLuas(luaEditInfo);
 			})
 	}
 
 }
 
-export default angular.module('ual.lua',[])
+export default angular.module('ual.lua', [])
 	.controller('luaCtrl', luaCtrl)
 	.name;

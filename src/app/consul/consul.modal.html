@@ -9,31 +9,40 @@
           &times;
         </button>
         <h4 class="modal-title" id="consulLabel">
-          添加Consul集群
+          添加集群
         </h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" name="consulForm">
           <div class="form-group">
-            <label for="consul_name" class="col-sm-2 control-label">名称：</label>
+            <label for="consul_name" class="col-sm-3 control-label">集群名称：</label>
 
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="consul_name" ng-model="consulCtrl.consulAddModal.consulName" required>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="consul_name" ng-model="consulCtrl.consulAddModal.registryName" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="consul_address" class="col-sm-2 control-label">地址：</label>
+            <label class="col-sm-3 control-label">注册中心类型：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+             <select class="form-control" ng-model="consulCtrl.consulAddModal.type">
+               <option value="consul" selected>Consul</option>
+             </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="consul_address" class="col-sm-3 control-label">注册中心地址：</label>
+
+            <div class="col-sm-9">
               <input type="text" class="form-control" id="consul_address" name="inputAdds"
                      ng-model="consulCtrl.consulAddModal.address" required
                      ng-pattern="/^[\s\S]*?\:([1-9])$|^[\s\S]*?\:([1-9][0-9])$|^[\s\S]*?\:([1-9][0-9][0-9])$|^[\s\S]*?\:([1-9][0-9][0-9][0-9])$|^[\s\S]*?\:([1-6][0-5][0-5][0-3][0-5])$/">
             </div>
           </div>
           <div class="form-group" ng-if="consulForm.inputAdds.$invalid && consulForm.inputAdds.$dirty">
-            <label for="consul_address" class="col-sm-2 control-label"></label>
+            <label for="consul_address" class="col-sm-3 control-label"></label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               Port should in 1 - 65535
             </div>
           </div>
@@ -63,30 +72,39 @@
           &times;
         </button>
         <h4 class="modal-title" id="consulSettingLabel">
-          编辑Consul集群
+          编辑集群
         </h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" name="consulSettingForm">
           <div class="form-group">
-            <label class="col-sm-2 control-label">名称：</label>
+            <label class="col-sm-3 control-label">集群名称：</label>
 
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model="consulCtrl.consulModal.consulName" required>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" ng-model="consulCtrl.consulModal.registryName" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">地址：</label>
+            <label class="col-sm-3 control-label">注册中心类型：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+              <select class="form-control" ng-model="consulCtrl.consulModal.type">
+                <option value="consul" selected>Consul</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">注册中心地址：</label>
+
+            <div class="col-sm-9">
               <input type="text" class="form-control" name="inputAdds" ng-model="consulCtrl.consulModal.address" required
                      ng-pattern="/^[\s\S]*?\:([1-9])$|^[\s\S]*?\:([1-9][0-9])$|^[\s\S]*?\:([1-9][0-9][0-9])$|^[\s\S]*?\:([1-9][0-9][0-9][0-9])$|^[\s\S]*?\:([1-6][0-5][0-5][0-3][0-5])$/">
             </div>
           </div>
           <div class="form-group" ng-if="consulSettingForm.inputAdds.$invalid && consulSettingForm.inputAdds.$dirty">
-            <label for="consul_address" class="col-sm-2 control-label"></label>
+            <label for="consul_address" class="col-sm-3 control-label"></label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               Port should in 1 - 65535
             </div>
           </div>
@@ -117,17 +135,17 @@
           &times;
         </button>
         <h4 class="modal-title" id="consulDelLabel">
-          删除Consul集群
+          删除集群
         </h4>
       </div>
       <div class="modal-body">
-        确定删除{{consulCtrl.consulModal.consulName}}?
+        确定删除{{consulCtrl.consulModal.registryName}}?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default"
                 data-dismiss="modal">关闭
         </button>
-        <button type="button" class="btn btn-primary" ng-click="consulCtrl.delConsul(consulCtrl.consulModal.consulId)">
+        <button type="button" class="btn btn-primary" ng-click="consulCtrl.delConsul(consulCtrl.consulModal.registryId)">
           确认
         </button>
       </div>

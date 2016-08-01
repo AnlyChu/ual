@@ -7,7 +7,7 @@ import {Inject} from 'angular-es-utils';
 
 @Inject('$timeout')
 class services {
-	constructor(){
+	constructor() {
 		this.unique = (arr) => {
 			var result = [], hash = {};
 			for (var i = 0, elem; (elem = arr[i]) != null; i++) {
@@ -28,13 +28,20 @@ class services {
 				this.TipService.type = type;
 
 				//提示框显示最多3秒消失
-				this._$timeout( () => {
+				this._$timeout(() => {
 					this.TipService.clear();
 				}, 3000);
 			},
-			clear :() => {
+			clear: () => {
 				this.TipService.message = null;
 				this.TipService.type = null;
+			}
+		};
+
+		this.leftNavText = {
+			text:null,
+			setText:(txt) => {
+				this.leftNavText.text = txt;
 			}
 		};
 	}

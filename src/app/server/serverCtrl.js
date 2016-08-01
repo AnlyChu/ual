@@ -16,7 +16,7 @@ class serverCtrl {
 		serverScope.locationsChoose = [];
 		serverScope.serverId = this._$stateParams.serverId;
 		serverScope.getServers();
-		serverScope.showOrHide = window.slideToggle.showOrHide;
+		//serverScope.showOrHide = window.slideToggle.showOrHide;
 
 	}
 

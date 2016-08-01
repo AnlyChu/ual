@@ -1,17 +1,20 @@
-<div ng-controller="leftCtrl">
-  <div class="left-nav">
-    <ul class="list-group">
-      <li class="list-group-item">{{navTxt}}</li>
-    </ul>
-  </div>
+<div ng-controller="leftCtrl as left">
+
   <div class="left">
     <ul class="list-group">
-      <li class="list-group-item" ui-sref=".upstream()" ui-sref-active="left-choose" ng-click="navHeader('upstream')">upstream</li>
-      <li class="list-group-item" ui-sref=".location()" ui-sref-active="left-choose" ng-click="navHeader('location')">location</li>
-      <li class="list-group-item" ui-sref=".nginx()" ui-sref-active="left-choose" ng-click="navHeader('nginx')">nginx</li>
-      <li class="list-group-item" ui-sref=".server()" ui-sref-active="left-choose" ng-click="navHeader('server')">server</li>
-      <li class="list-group-item" ui-sref=".lua()" ui-sref-active="left-choose" ng-click="navHeader('lua')">lua</li>
-      <li class="list-group-item" ui-sref=".consul()" ui-sref-active="left-choose" ng-click="navHeader('consul')">consul</li>
+      <li class="list-group-item" ui-sref=".nginx()" ui-sref-active="left-choose" ng-click="left.navHeader('主机')">主机</li>
+      <li class="list-group-item" ui-sref=".server()" ui-sref-active="left-choose" ng-click="left.navHeader('监听器')">监听器</li>
+      <li class="list-group-item" ui-sref=".upstream()" ui-sref-active="left-choose" ng-click="left.navHeader('后端服务')">后端服务</li>
+      <li class="list-group-item" ui-sref=".location()" ui-sref-active="left-choose" ng-click="left.navHeader('转发规则')">转发规则</li>
+      <li class="list-group-item" ui-sref=".consul()" ui-sref-active="left-choose" ng-click="left.navHeader('集群')">集群</li>
+      <li class="list-group-item" ui-sref=".lua()" ui-sref-active="left-choose" ng-click="left.navHeader('脚本')">脚本列表</li>
+    </ul>
+  </div>
+  <div class="left-nav">
+    <ul class="list-group">
+      <li class="list-group-item">
+        {{left.navTxt}}   {{left.listText.text ? '&nbsp; &nbsp;>> &nbsp; &nbsp;' + left.listText.text : ''}}
+      </li>
     </ul>
   </div>
 </div>

@@ -64,8 +64,8 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 // var apiPrefix = '';
 // var filename = process.cwd() + '/mock/db.json';
-var proxyHost = '172.18.21.65';
-var proxyPort = '10080';
+var proxyHost = '172.18.21.106';
+var proxyPort = '';
 
 app.use(jsonServer.defaults({static: process.cwd() + '/'}));
 // app.use(jsonServer.router(apiPrefix, filename));

@@ -30,13 +30,13 @@ class API {
 	resourceAPI(){
 		let api = {
 			/* consul */
-			getConsuls: genResource('/v1/consuls',false, {}),
+			getConsuls: genResource('/v1/registrys',false, {}),
 
-			delConsul: genResource('/v1/consul/:consulId',false, {
+			delConsul: genResource('/v1/registry/:consulId',false, {
 				consulId: '@consulId'
 			}),
 
-			consul: genResource('/v1/consul',false, {}, {
+			consul: genResource('/v1/registry',false, {}, {
 				save: {
 					method: 'POST',
 					

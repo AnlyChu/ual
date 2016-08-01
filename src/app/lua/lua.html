@@ -1,83 +1,74 @@
-
 <div class="container-fluid" id="main-container">
 
   <div class="lua-group">
     <li class="list-group-item">脚本列表</li>
-    <a class="list-group-item" ng-class="{'active':$index == 0}" ng-repeat="lua in luaCtrl.luas" ng-click="luaInfo($index,$event)">{{lua.fileName}}</a>
+    <a class="list-group-item lua" ng-class="{'active':lua.luaId == luaCtrl.luaAllInfo.luaId}"
+       ng-repeat="lua in luaCtrl.luas" ng-click="luaCtrl.luaInfo($index,$event)">{{lua.name}}</a>
+    <button type="button" class="btn btn-default add-lua" data-toggle="modal" data-target="#lua-add">新建脚本</button>
   </div>
 
   <div class="form-group clickImg">
-    <span class="addPng lua-png" ng-click="luaCtrl.initLua('add')" title="添加">+</span>
-        <span ng-if="luaCtrl.luas.length > 0">
-          <img class="settingImg" src="images/setting.png" data-toggle="modal" ng-click="luaCtrl.initLua('edit')" title="编辑">
+    <!--<span class="addPng lua-png" ng-click="luaCtrl.initLua('add')" title="添加">+</span>-->
+        <span ng-if="luaCtrl.luas.length > 0" class="editSpan">
+          <img class="settingImg" src="images/setting.png" data-toggle="modal" data-target="#lua-edit" title="编辑">
         </span>
-    <span ng-if="luaCtrl.luas.length > 0" class="delPng" data-toggle="modal" data-target="#lua-del" title="删除">&times;</span>
+    <span ng-if="luaCtrl.luas.length > 0" class="delSpan">
+              <img class="delPng" src="images/del.png" data-toggle="modal" data-target="#lua-del" title="删除">
+    </span>
   </div>
   <div class="table-responsive ual-table">
     <form class="form-horizontal" name="luaForm">
 
       <div class="form-group">
-        <label class="col-sm-1 control-label">名称：</label>
+        <label class="col-sm-1 control-label">脚本名称：</label>
 
-        <div class="col-sm-3">
-          <input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.fileName" required>
+        <div class="col-sm-3 noInput">
+          {{luaCtrl.luaAllInfo.name}}
+          <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.fileName" required>-->
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-1 control-label">描述：</label>
+        <label class="col-sm-1 control-label">文件名称：</label>
 
-        <div class="col-sm-5">
-          <input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.descr" required>
+        <div class="col-sm-3 noInput">
+          {{luaCtrl.luaAllInfo.fileName}}
+          <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.fileName" required>-->
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-1 control-label">代码：</label>
+        <label class="col-sm-1 control-label">脚本类型：</label>
 
+        <div class="col-sm-3 noInput">
+          {{luaCtrl.luaAllInfo.type}}
+          <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.fileName" required>-->
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-1 control-label">执行阶段：</label>
+
+        <div class="col-sm-3 noInput">
+          {{luaCtrl.luaAllInfo.stage}}
+          <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.fileName" required>-->
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-1 control-label">脚本描述：</label>
+
+        <div class="col-sm-5 noInput">
+          {{luaCtrl.luaAllInfo.descr}}
+          <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.descr" required>-->
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-1 control-label">脚本代码：</label>
         <div class="col-sm-10">
           <textarea type="text" class="form-control textarea-content" ng-model="luaCtrl.luaAllInfo.content"></textarea>
         </div>
       </div>
     </form>
-    <div class="modal-footer footer-btn" ng-if="luaCtrl.isEdit || luaCtrl.isAdd">
-      <button type="button" class="btn btn-default"
-              data-dismiss="modal" ng-click="luaCtrl.initLua('esc')">关闭
-      </button>
-      <button type="button" class="btn btn-primary" ng-click="luaCtrl.isAdd ? luaCtrl.addLua() : luaCtrl.editLua(luaCtrl.luaAllInfo)"
-              ng-disabled="luaForm.$invalid">
-        确认
-      </button>
-    </div>
   </div>
 
 
-  <!--删除location modal-->
-  <div class="modal fade" id="lua-del" tabindex="-1" role="dialog"
-       aria-labelledby="luaDelLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close"
-                  data-dismiss="modal" aria-hidden="true">
-            &times;
-          </button>
-          <h4 class="modal-title" id="luaDelLabel">
-            删除lua
-          </h4>
-        </div>
-        <div class="modal-body">
-          确定删除{{luaCtrl.luaAllInfo.fileName}}?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default"
-                  data-dismiss="modal">关闭
-          </button>
-          <button type="button" class="btn btn-primary" ng-click="luaCtrl.delLua(luaCtrl.luaAllInfo)">
-            确认
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <ng-include src=" 'lua/lua.modal.html' "></ng-include>
 
 </div>

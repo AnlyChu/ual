@@ -53,6 +53,7 @@ a:focus {
 .left-nav {
     /*margin-top: 5%;*/
     padding-top: 5px;
+    margin-left: 150px;
 }
 
 .left-nav > ul {
@@ -80,7 +81,7 @@ a:focus {
 
 .left > ul > li {
     padding-left: 30px;
-    font-size: 18px;
+    font-size: 16px;
     border: none;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
@@ -99,6 +100,8 @@ a:focus {
 .ual-table {
     padding-left: 2%;
     overflow-x: hidden;
+    border: 0;
+    width: auto;
 }
 
 .alert_tip {
@@ -110,17 +113,17 @@ a:focus {
 }
 
 .settingImg {
-    width: 15px;
-    border-radius: 50px;
-    vertical-align: middle;
-    background: rgb(180,180,180);
+    width: 20px;
+    /*border-radius: 50px;*/
+    /*vertical-align: middle;*/
+    /*background: rgb(180,180,180);*/
     cursor: pointer;
 }
 
 .upgradeImg {
-    width: 15px;
-    border-radius: 50px;
-    vertical-align: middle;
+    width: 20px;
+    /*border-radius: 50px;*/
+    /*vertical-align: middle;*/
     /*background: rgb(180,180,180);*/
     cursor: pointer;
 }
@@ -134,16 +137,13 @@ a:focus {
 }
 
 .delPng{
-    font-size: 18px;
-    color: grey;
+    width: 20px;
     cursor: pointer;
-    vertical-align: middle;
 }
 
 .addPng{
-    text-align: left;
+    width: 20px;
     cursor: pointer;
-    font-size: 18px;
 }
 
 .textarea-modal{
@@ -152,7 +152,7 @@ a:focus {
 
 .lua-group{
     float: left;
-
+    margin-left: 5px;
 }
 
 .lua-group>li{
@@ -185,12 +185,24 @@ a:focus {
     text-align: right;
     vertical-align: middle;
     padding-right: 5%;
+    position: relative;
 }
 
-.clickImg>span{
+.clickImg>span.editSpan{
     display: inline-block;
     vertical-align: middle;
     margin-left: 8px;
+    position: absolute;
+    top: -55px;
+    right: 50px;
+}
+.clickImg>span.delSpan{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+    position: absolute;
+    top: -55px;
+    right: 20px;
 }
 .lua-png{
     color: grey;
@@ -255,4 +267,24 @@ a:focus {
     color: #080808 !important;
     background-color: rgba(131, 185, 93, 0.48);
     border-color: rgba(131, 185, 93, 0.48);
+}
+
+.noInput{
+    padding-top: 7px;
+}
+
+.add-lua{
+    margin-top: 10px;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 10px;
+    border-color: #adadad;
+    width: 100%;
+}
+
+.add-lua:focus{
+    outline: none;
+}
+.add-lua:active:focus{
+    outline: none;
 }

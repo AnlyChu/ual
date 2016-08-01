@@ -1,0 +1,212 @@
+<!--删除lua modal-->
+<div class="modal fade" id="lua-del" tabindex="-1" role="dialog"
+     aria-labelledby="luaDelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="luaDelLabel">
+          删除脚本
+        </h4>
+      </div>
+      <div class="modal-body">
+        确定删除{{luaCtrl.luaAllInfo.fileName}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="luaCtrl.delLua(luaCtrl.luaAllInfo)">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--添加lua modal-->
+<div class="modal fade" id="lua-add" tabindex="-1" role="dialog"
+     aria-labelledby="luaAddLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="luaAddLabel">
+          新建脚本
+        </h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-horizontal" name="luaAddForm">
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本名称：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.fileName}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaItem.name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">文件名称：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.fileName}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaItem.fileName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">文件类型：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.type}}-->
+                <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.type" required>-->
+                <select class="form-control" ng-model="luaCtrl.luaItem.type">
+                  <option value="auth">auth</option>
+                  <option value="dynamic_proxy">dynamic_proxy</option>
+                  <option value="library">library</option>
+                  <option value="custom">custom</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">执行阶段：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.stage}}-->
+                <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.stage" required>-->
+                <select class="form-control" ng-model="luaCtrl.luaItem.stage">
+                  <option value="rewrite" selected>rewrite</option>
+                  <option value="access">access</option>
+                  <option value="content">content</option>
+                  <option value="upstream">upstream</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本描述：</label>
+
+              <div class="col-sm-5">
+                <!--{{luaCtrl.luaAllInfo.descr}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaItem.descr" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本代码：</label>
+
+              <div class="col-sm-10">
+                <textarea type="text" class="form-control textarea-content" ng-model="luaCtrl.luaItem.content"></textarea>
+              </div>
+            </div>
+
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="luaCtrl.addLua()" ng-disabled="luaAddForm.$invalid">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--edit lua modal-->
+<div class="modal fade" id="lua-edit" tabindex="-1" role="dialog"
+     aria-labelledby="luaEditLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="luaEditLabel">
+          编辑脚本
+        </h4>
+      </div>
+      <div class="modal-body">
+          <form class="form-horizontal" name="luaEditForm">
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本名称：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.fileName}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaEditInfo.name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">文件名称：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.fileName}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaEditInfo.fileName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本类型：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.type}}-->
+                <select class="form-control" ng-model="luaCtrl.luaEditInfo.type">
+                  <option value="auth">auth</option>
+                  <option value="dynamic_proxy">dynamic_proxy</option>
+                  <option value="library">library</option>
+                  <option value="custom">custom</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">执行阶段：</label>
+
+              <div class="col-sm-3">
+                <!--{{luaCtrl.luaAllInfo.stage}}-->
+                <!--<input type="text" class="form-control" ng-model="luaCtrl.luaAllInfo.stage" required>-->
+                <select class="form-control" ng-model="luaCtrl.luaEditInfo.stage">
+                  <option value="rewrite">rewrite</option>
+                  <option value="access">access</option>
+                  <option value="content">content</option>
+                  <option value="upstream">upstream</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本描述：</label>
+
+              <div class="col-sm-5">
+                <!--{{luaCtrl.luaAllInfo.descr}}-->
+                <input type="text" class="form-control" ng-model="luaCtrl.luaEditInfo.descr" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">脚本代码：</label>
+
+              <div class="col-sm-10">
+                <textarea type="text" class="form-control textarea-content" ng-model="luaCtrl.luaEditInfo.content"></textarea>
+              </div>
+            </div>
+
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="luaCtrl.editLua(luaCtrl.luaEditInfo)" ng-disabled="luaEditForm.$invalid">
+          确认
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

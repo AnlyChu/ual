@@ -18,7 +18,7 @@ class consulCtrl {
         let consulScope = this;
         let api = this._API;
         api.getConsuls.get({}, (data) => {
-            consulScope.consul = data;s
+            consulScope.consul = data.registrys;
         });
     }
 
@@ -57,11 +57,11 @@ class consulCtrl {
 
     getConsulId(index, type) {
         let consulScope = this;
+        consulScope.consulModal = {};
+        Object.assign(consulScope.consulModal, consulScope.consul[index]);
         if (type == 'del') {
-            consulScope.consulModal = consulScope.consul.consuls[index];
             $('#consul-del').modal('show');
         } else if (type == 'setting') {
-            consulScope.consulModal = consulScope.consul.consuls[index];
             $('#consul-setting').modal('show');
         }
     }

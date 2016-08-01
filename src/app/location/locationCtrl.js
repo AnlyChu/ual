@@ -8,6 +8,7 @@ class locationCtrl {
 	constructor() {
 		let locationScope = this;
 		let api = this._API;
+		locationScope.luasArray =[];
 		locationScope.locationItem = {
 			urimatch: '',
 			internal: '',
@@ -16,7 +17,9 @@ class locationCtrl {
 			luaId: '',
 			defaultType: '',
 			excmd: '',
-			include: ''
+			proxyConf:'',
+			include: '',
+			locationName:''
 		};
 		api.getUpstreams.get({}, (data) => {
 			locationScope.upstreams = data.upstreams;
@@ -36,10 +39,12 @@ class locationCtrl {
 			internal: '',
 			rewrite: '',
 			upstream: {},
-			lua: {},
+			luas: {},
 			defaultType: '',
 			excmd: '',
-			include: ''
+			proxyConf:'',
+			include: '',
+			locationName:''
 		}
 	}
 
