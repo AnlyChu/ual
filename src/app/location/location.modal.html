@@ -16,71 +16,104 @@
       <div class="modal-body">
         <form class="form-horizontal" name="locationForm">
           <div class="form-group">
-            <label class="col-sm-2 control-label">规则名称：</label>
+            <label class="col-sm-3 control-label">规则名称：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <input type="text" class="form-control" ng-model="locationCtrl.locationItem.locationName" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">路径匹配：</label>
+            <label class="col-sm-3 control-label">路径匹配：</label>
 
-            <div class="col-sm-10">
-              <input type="checkbox" ng-model="locationCtrl.locationItem.urimatch">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationItem.urimatch">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">URL重写：</label>
+            <label class="col-sm-3 control-label">URL重写：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <input type="text" class="form-control" ng-model="locationCtrl.locationItem.rewrite">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">后端服务：</label>
+            <label class="col-sm-3 control-label">后端服务：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationCtrl.locationItem.upstreamId"  class="form-control" >
+              <select ng-model="locationCtrl.locationItem.upstreamId"  class="form-control" ng-disabled="locationCtrl.haveDynamic">
                 <option value="">--请选择--</option>
-                <option ng-repeat="upstream in locationCtrl.locationItem.upstreams" value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
+                <option ng-repeat="upstream in locationCtrl.upstreams" value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">认证：</label>
-            <div class="col-sm-10">
+            <label class="col-sm-3 control-label">认证：</label>
+            <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
               <select ng-model="locationCtrl.luasArray[0]"  class="form-control" >
                 <option value="">--请选择--</option>
-                <option ng-repeat="lua in locationCtrl.locationItem.luas" value="{{lua.luaId}}" ng-if="lua.type == 'auth'">{{lua.name}}</option>
+                <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'auth'">{{lua.name}}</option>
               </select>
             </div>
 
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">动态代理：</label>
+            <label class="col-sm-3 control-label">动态代理：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationCtrl.luasArray[1]"  class="form-control">
+              <select ng-model="locationCtrl.luasArray[1]"  class="form-control" ng-change="locationCtrl.onChangeLua()">
                 <option value="">--请选择--</option>
-                <option ng-repeat="lua in locationCtrl.locationItem.luas" value="{{lua.luaId}}" ng-if="lua.type == 'dynamic_proxy'">{{lua.name}}</option>
+                <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'dynamic_proxy'">{{lua.name}}</option>
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">脚本列表：</label>
+          <!--<div class="form-group">-->
+            <!--<label class="col-sm-3 control-label">脚本列表：</label>-->
 
-            <div class="col-sm-10">
-              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.defaultType"></textarea>
+            <!--<div class="col-sm-9">-->
+              <!--&lt;!&ndash;<textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.defaultType"></textarea>&ndash;&gt;-->
+              <!--<table class="table">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                  <!--<th class="model-th">脚本名称</th>-->
+                  <!--<th class="model-th">脚本类型</th>-->
+                  <!--<th class="model-th">执行阶段-->
+                    <!--<img src="images/add.png" alt="add" class="addPng" data-toggle="modal" data-target="#location" title="添加"/>-->
+                  <!--</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+               <!--<tr ng-repeat="lua in locationCtrl.luas">-->
+                 <!--<td>-->
+                   <!--<input type="text" class="form-control model-input" ng-model="lua.name">-->
+                 <!--</td>-->
+                 <!--<td>-->
+                   <!--<input type="text" class="form-control model-input" ng-model="lua.type">-->
+                 <!--</td>-->
+                 <!--<td>-->
+                   <!--<input type="text" class="form-control model-input"-->
+                          <!--ng-model="lua.stage">-->
+                 <!--</td>-->
+               <!--</tr>-->
+                <!--</tbody>-->
+              <!--</table>-->
+            <!--</div>-->
+          <!--</div>-->
+          <div class="form-group" ng-if="advancedSetting">
+            <label class="col-sm-3 control-label">代理配置：</label>
+
+            <div class="col-sm-9">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.proxyConf"></textarea>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">代理配置：</label>
+          <div class="form-group" >
+            <label class="col-sm-3 control-label"></label>
 
-            <div class="col-sm-10">
-              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.proxyConf"></textarea>
+            <div class="col-sm-9">
+              <span ng-click="advancedSetting ? advancedSetting = false : advancedSetting = true"
+                style="cursor: pointer;">{{advancedSetting ? '隐藏' : '显示'}}高级设置</span>
             </div>
           </div>
         </form>
@@ -108,11 +141,11 @@
           &times;
         </button>
         <h4 class="modal-title" id="locationDelLabel">
-          删除location
+          删除转发规则
         </h4>
       </div>
       <div class="modal-body">
-        确定删除{{locationCtrl.locationModal.urimatch}}?
+        确定删除{{locationCtrl.locationModal.locationName}}?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default"
@@ -137,77 +170,113 @@
           &times;
         </button>
         <h4 class="modal-title" id="locationSettingLabel">
-          新建location
+          编辑转发规则
         </h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="locationEditForm">
           <div class="form-group">
-            <label class="col-sm-2 control-label">Match：</label>
+            <label class="col-sm-3 control-label">规则名称：</label>
 
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.urimatch" required>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.locationName" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Internal：</label>
+            <label class="col-sm-3 control-label">路径匹配：</label>
 
-            <div class="col-sm-10">
-              <input type="checkbox" ng-model="locationCtrl.locationModal.internal">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.urimatch">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Include：</label>
+            <label class="col-sm-3 control-label">URL重写：</label>
 
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model="locationCtrl.locationModal.include">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Rewrite：</label>
-
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <input type="text" class="form-control" ng-model="locationCtrl.locationModal.rewrite">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Upstream：</label>
+            <label class="col-sm-3 control-label">后端服务：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationCtrl.locationModal.upstream.upstreamId"  class="form-control" >
-                <option value="">--请选择--</option>
-                <option ng-repeat="upstream in locationCtrl.upstreams"
-                        ng-selected="locationCtrl.locationModal.upstream.upstreamId == upstream.upstreamId"
-                        value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
+              <select ng-model="locationCtrl.locationModal.upstreamId"  class="form-control" ng-disabled="locationCtrl.haveDynamic || locationCtrl.luasArray[1]">
+                <option value="">未选择</option>
+                <option ng-repeat="upstream in locationCtrl.upstreams" value="{{upstream.upstreamId}}"
+                  ng-selected="locationCtrl.locationModal.upstreamId == upstream.upstreamId">{{upstream.serviceName}}</option>
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Lua：</label>
-
-            <div class="col-sm-10">
+            <label class="col-sm-3 control-label">认证：</label>
+            <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationModal.lua.luaId"  class="form-control">
-                <option value="">--请选择--</option>
-                <option ng-repeat="lua in locationCtrl.luas"
-                        ng-selected="locationCtrl.locationModal.lua.luaId == lua.luaId"
-                        value="{{lua.luaId}}">{{lua.fileName}}</option>
+              <select ng-model="locationCtrl.luasArray[0]"  class="form-control" >
+                <option value="">未选择</option>
+                <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'auth'"
+                  ng-selected="locationCtrl.luasArray[0] == lua.luaId">{{lua.name}}</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">动态代理：</label>
+
+            <div class="col-sm-3">
+              <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
+              <select ng-model="locationCtrl.luasArray[1]"  class="form-control" ng-change="locationCtrl.onChangeLua()">
+                <option value="">未选择</option>
+                <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'dynamic_proxy'"
+                        ng-selected="locationCtrl.luasArray[1] == lua.luaId">{{lua.name}}</option>
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">DefaultType：</label>
+          <!--<div class="form-group">-->
+          <!--<label class="col-sm-3 control-label">脚本列表：</label>-->
 
-            <div class="col-sm-10">
-              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationModal.defaultType"></textarea>
+          <!--<div class="col-sm-9">-->
+          <!--&lt;!&ndash;<textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.defaultType"></textarea>&ndash;&gt;-->
+          <!--<table class="table">-->
+          <!--<thead>-->
+          <!--<tr>-->
+          <!--<th class="model-th">脚本名称</th>-->
+          <!--<th class="model-th">脚本类型</th>-->
+          <!--<th class="model-th">执行阶段-->
+          <!--<img src="images/add.png" alt="add" class="addPng" data-toggle="modal" data-target="#location" title="添加"/>-->
+          <!--</th>-->
+          <!--</tr>-->
+          <!--</thead>-->
+          <!--<tbody>-->
+          <!--<tr ng-repeat="lua in locationCtrl.luas">-->
+          <!--<td>-->
+          <!--<input type="text" class="form-control model-input" ng-model="lua.name">-->
+          <!--</td>-->
+          <!--<td>-->
+          <!--<input type="text" class="form-control model-input" ng-model="lua.type">-->
+          <!--</td>-->
+          <!--<td>-->
+          <!--<input type="text" class="form-control model-input"-->
+          <!--ng-model="lua.stage">-->
+          <!--</td>-->
+          <!--</tr>-->
+          <!--</tbody>-->
+          <!--</table>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="form-group" ng-if="advancedSetting">
+            <label class="col-sm-3 control-label">代理配置：</label>
+
+            <div class="col-sm-9">
+              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationModal.proxyConf"></textarea>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Excmd：</label>
+          <div class="form-group" >
+            <label class="col-sm-3 control-label"></label>
 
-            <div class="col-sm-10">
-              <textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationModal.excmd"></textarea>
+            <div class="col-sm-9">
+              <span ng-click="advancedSetting ? advancedSetting = false : advancedSetting = true"
+                    style="cursor: pointer;">{{advancedSetting ? '隐藏' : '显示'}}高级设置</span>
             </div>
           </div>
         </form>
