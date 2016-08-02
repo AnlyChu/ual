@@ -5,12 +5,26 @@
 import {Inject} from 'angular-es-utils';
 import API from '../common/API/api.js';
 import services from '../common/service.js';
+import  showOrHide from '../common/slider.js';
 
 @Inject('API', 'services')
 class upstreamCtrl {
 	constructor() {
 		let upstreamScope = this;
 		upstreamScope.getUpstreams();
+	}
+
+	showOrHide(index,event){
+		var other = document.querySelectorAll('.tr-hover');
+		for (var i = 0, len = other.length; i < len; i++) {
+			if (other[i] != event.target) {
+				if (other[i].className.indexOf('active') > -1) {
+					other[i].className = '';
+				}
+			}
+		}
+		$(event.target.parentNode).addClass('active');
+		showOrHide(index);
 	}
 
 	initUpstream() {
@@ -105,7 +119,8 @@ class upstreamCtrl {
 		}
 	}
 
-	getUpstreamId(index, type, nodeUpstream) {
+	getUpstreamId(index, type, nodeUpstream,event) {
+		event.stopPropagation();
 		let upstreamScope = this;
 		upstreamScope.initUpstream();
 		upstreamScope.upstreamModal = angular.copy(upstreamScope.upstreams[index]);
@@ -167,7 +182,7 @@ class upstreamCtrl {
 			keepalive: upstreamScope.upstreamModal.keepalive
 		}, (data) => {
 			data.status ? TipService.setMessage('修改成功', 'success') : TipService.setMessage('修改失败', 'danger');
-			upstreamScope.getUpstreams();
+			nodes ? upstreamScope.upstreamModal.nodeList = upstreamScope.nodes :  upstreamScope.getUpstreams();
 			$('#upstream-setting').modal('hide');
 			$('#upstream-del-node').modal('hide');
 		})

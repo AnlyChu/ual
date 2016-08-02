@@ -92,6 +92,10 @@ a:focus {
     background-color: #83B95D;
 }
 
+.head-name {
+    display: inline-block;
+}
+
 .head .headTxt {
     color: #ffffff;
     font-size: 25px;
@@ -99,7 +103,7 @@ a:focus {
 
 .ual-table {
     padding-left: 2%;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
     border: 0;
     width: auto;
 }
@@ -163,6 +167,9 @@ a:focus {
 
 .a-right {
     text-align: right;
+}
+.a-center {
+    text-align: center;
 }
 
 .lua-group > li > span {
@@ -300,10 +307,17 @@ a:focus {
     border: 0;
 }
 
-.intable:hover{
-    background-color: #fff !important;
+.intable {
+    background-color: #f5f5f5 !important;
 }
-.nodeList>td{
+
+.nodeList > td {
     padding: 5px !important;
     border: none !important;
+}
+
+.group-upgrade{
+    position: absolute;
+    top: 95px;
+    right: 90px;
 }

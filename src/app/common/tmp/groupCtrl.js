@@ -10,19 +10,23 @@ class groupCtrl {
 		let api = this._API;
 		rootScope.allGroup = true;
 		this.getNginxGroup();
+		this.nginx = window.location.hash.split('/')[2];
 	}
 
-	chooseGroup(nginxGroupId, event) {
+	chooseGroup(nginxGroupId, index, event) {
 		let rootScope = this._$rootScope;
-
+		let leftNavText = this._services.leftNavText;
+		let groupScope = this;
 		var other = document.querySelectorAll('.list-group-item');
 		for (var i = 0, len = other.length; i < len; i++) {
 			if (other[i] != event.target) {
 				if (other[i].className.indexOf('active') > -1) {
-					other[i].className = 'list-group-item';
+					other[i].className = 'list-group-item a-center';
 				}
 			}
 		}
+		groupScope.nginxInfo = rootScope.nginxGroups[index];
+		leftNavText.setText($(event.target).text());
 		$(event.target).addClass('active');
 		if (nginxGroupId === 'all') {
 			rootScope.allGroup = true;
@@ -35,11 +39,11 @@ class groupCtrl {
 		}
 	}
 
-	upgradeNginxGroup(index) {
+	upgradeNginxGroup(groupNginx) {
 		let groupScope = this;
 		let api = this._API;
 		let TipService = this._services.TipService;
-		groupScope.nginxGroupItem = groupScope.nginxGroups[index];
+		groupScope.nginxGroupItem = groupNginx;
 		api.upgradeGroup.update({
 			groupName: groupScope.nginxGroupItem.groupName
 		}, (data) => {
@@ -68,13 +72,16 @@ class groupCtrl {
 	getNginxGroup() {
 		let groupScope = this;
 		let rootScope = this._$rootScope;
+		let leftNavText = this._services.leftNavText;
 		let api = this._API;
 		api.getNginxGroup.get({}, (data) => {
 			rootScope.nginxGroups = data.nginxGroups;
+			groupScope.nginxInfo = data.nginxGroups[0];
+			leftNavText.setText(data.nginxGroups[0].groupName);
 		});
 
 		api.getConsuls.get({}, (data) => {
-			groupScope.consuls = data.consuls;
+			groupScope.registrys = data.registrys;
 		});
 	}
 
@@ -82,7 +89,11 @@ class groupCtrl {
 		let groupScope = this;
 		let api = this._API;
 		let TipService = this._services.TipService;
-		api.nginxGroup.save({},
+		api.nginxGroup.save({
+				groupName: groupScope.nginxGroupItem.groupName,
+				registryId: groupScope.nginxGroupItem.registry.registryId,
+				resolver: groupScope.nginxGroupItem.resolver
+			},
 			groupScope.nginxGroupItem, (data) => {
 				groupScope.getNginxGroup();
 				groupScope.initGroup();
@@ -93,28 +104,28 @@ class groupCtrl {
 		)
 	}
 
-	getGroupId(index, type, event) {
+	getGroupId(groupNginx, type, event) {
 		event.stopPropagation();
 		let groupScope = this;
 		let rootScope = this._$rootScope;
 		if (type == 'setting') {
-			groupScope.nginxGroupItem = rootScope.nginxGroups[index];
+			groupScope.nginxGroupItem = groupNginx;
 			$('#nginxGroup-edit').modal('show');
 		} else if (type == 'del') {
-			groupScope.nginxGroupItem = rootScope.nginxGroups[index];
+			groupScope.nginxGroupItem = groupNginx;
 			$('#nginxGroup-del').modal('show');
 		} else if (type == 'upgrade') {
-			groupScope.nginxGroupItem = rootScope.nginxGroups[index];
+			groupScope.nginxGroupItem = groupNginx;
 			$('#nginxGroup-upgrade').modal('show');
 		}
 	}
 
-	delNginxGroup(nginxGroupId) {
+	delNginxGroup(groupNginx) {
 		let groupScope = this;
 		let api = this._API;
 		let TipService = this._services.TipService;
 		api.delNginxGroup.delete({
-			nginxGroupId: nginxGroupId
+			nginxGroupId: groupNginx.nginxGroupId
 		}, (data) => {
 			groupScope.getNginxGroup();
 			$('#nginxGroup-del').modal('hide');
@@ -130,22 +141,26 @@ class groupCtrl {
 		let groupScope = this;
 		let api = this._API;
 		let TipService = this._services.TipService;
-		api.nginxGroup.update({},
-			nginxGroupItem, (data) => {
-				groupScope.getNginxGroup();
-				$('#nginxGroup-edit').modal('hide');
-				data.status ? TipService.setMessage('修改成功', 'success') : TipService.setMessage('修改失败', 'danger');
-			}, () => {
-				$('#nginxGroup-edit').modal('hide');
-				groupScope.getNginxGroup();
-				TipService.setMessage('修改失败', 'danger');
-			})
+		api.nginxGroup.update({
+			groupName: nginxGroupItem.groupName,
+			registryId: nginxGroupItem.registry.registryId,
+			nginxGroupId: nginxGroupItem.nginxGroupId,
+			resolver: nginxGroupItem.resolver
+		}, (data) => {
+			groupScope.getNginxGroup();
+			$('#nginxGroup-edit').modal('hide');
+			data.status ? TipService.setMessage('修改成功', 'success') : TipService.setMessage('修改失败', 'danger');
+		}, () => {
+			$('#nginxGroup-edit').modal('hide');
+			groupScope.getNginxGroup();
+			TipService.setMessage('修改失败', 'danger');
+		})
 	}
 
 
 }
 
 
-export default angular.module('ual.groupCtrl',[])
+export default angular.module('ual.groupCtrl', [])
 	.controller('groupCtrl', groupCtrl)
 	.name;

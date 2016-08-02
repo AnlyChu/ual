@@ -1,24 +1,30 @@
-
-<div class="lua-group" ng-controller="groupCtrl as group">
-  <a class="list-group-item" ng-click="group.chooseGroup('all',$event)">所有主机</a>
-  <a class="list-group-item" ng-click="group.chooseGroup('noGroup',$event)">未分组</a>
-  <li class="list-group-item">所有分组<span class="addPng" data-toggle="modal" ng-click="group.addGroup()">+</span></li>
-  <a class="list-group-item a-right" ng-repeat="nginxGroup in nginxGroups"
-     ng-click="group.chooseGroup(nginxGroup.nginxGroupId,$event)">
+<div ng-controller="groupCtrl as group">
+<div class="lua-group" >
+  <a class="list-group-item" ng-click="group.chooseGroup('all',$event)" ng-if="group.nginx == 'nginx'">所有主机</a>
+  <a class="list-group-item" ng-click="group.chooseGroup('noGroup',$event)" ng-if="group.nginx == 'nginx'">未分组主机</a>
+  <li class="list-group-item">所有分组</li>
+  <a class="list-group-item a-center" ng-repeat="nginxGroup in nginxGroups"
+     ng-class="{'active':nginxGroup.nginxGroupId == group.nginxInfo.nginxGroupId}"
+     ng-click="group.chooseGroup(nginxGroup.nginxGroupId,$index,$event)">
     {{nginxGroup.groupName}}
-      <span class="setOrDel">
-        <img class="settingImg" src="images/setting.png" data-toggle="modal"
-             ng-click="group.getGroupId($index,'setting',$event)" title="编辑">
-        &nbsp;&nbsp;
-        <span class="delPng" data-toggle="modal" ng-click="group.getGroupId($index,'del',$event)" title="删除">&times;</span>
-        &nbsp;&nbsp;
-        <img class="upgradeImg" src="images/upgrade.png" data-toggle="modal"
-             ng-click="group.upgradeNginxGroup($index)" title="更新">
+      <!--<span class="setOrDel">-->
+        <!--<img class="settingImg" src="images/setting.png" data-toggle="modal"-->
+             <!--ng-click="group.getGroupId($index,'setting',$event)" title="编辑">-->
+        <!--&nbsp;&nbsp;-->
+        <!--<span class="delPng" data-toggle="modal" ng-click="group.getGroupId($index,'del',$event)" title="删除">&times;</span>-->
+        <!--&nbsp;&nbsp;-->
+        <!--<img class="upgradeImg" src="images/upgrade.png" data-toggle="modal"-->
+             <!--ng-click="group.upgradeNginxGroup($index)" title="更新">-->
 
-      </span>
+      <!--</span>-->
   </a>
+
+  <button type="button" class="btn btn-default add-lua" data-toggle="modal"  ng-click="group.addGroup()">新建分组</button>
+
 
   <ng-include src=" 'common/tmp/group.modal.html' "></ng-include>
 
 </div>
 
+<ng-include src=" 'common/tmp/groupInfo.html' "></ng-include>
+</div>

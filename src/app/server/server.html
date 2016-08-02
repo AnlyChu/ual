@@ -17,7 +17,7 @@
       </tr>
       </thead>
       <tbody ng-repeat="server in serverCtrl.servers">
-      <tr ng-if="allGroup || server.nginxGroup.nginxGroupId === chooseGroupId" ng-click="serverCtrl.showOrHide($index,$event)">
+      <tr ng-if="allGroup || server.nginxGroup.nginxGroupId === chooseGroupId" ng-click="serverCtrl.showOrHide($index)">
         <td>{{server.domain}}</td>
         <td colspan="2">{{server.port}}</td>
         <td colspan="2">{{server.env}}</td>
@@ -31,7 +31,7 @@
       </tr>
       <tr ng-if="allGroup || server.nginxGroup.nginxGroupId === chooseGroupId">
         <td colspan="7" style="padding: 0;border: none">
-          <div class="table-responsive showOrHide" style="height: 0;">
+          <div class="showOrHide" style="height: 0;">
             <table class="table table-hover inline-table">
               <thead>
               <tr>

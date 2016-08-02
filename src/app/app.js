@@ -21,7 +21,7 @@ import leftCtrl from './common/left/leftCtrl.js';
 import '../lib/bootstrap-3.3.5-dist/css/bootstrap.css';
 import './ual.css';
 
-@Inject('$rootScope', 'services','API')
+@Inject('$rootScope', 'services', 'API')
 class mainCtrl {
 	constructor() {
 		this.tipService = this._services.TipService;

@@ -10,28 +10,35 @@
           &times;
         </button>
         <h4 class="modal-title" id="nginxGroupLabel">
-          添加配置组
+          新建分组
         </h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" name="nginxGroupForm">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">名称：</label>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">名称：</label>
 
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-model="group.nginxGroupItem.groupName" required>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" ng-model="group.nginxGroupItem.groupName" required>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Consul：</label>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">集群：</label>
 
-            <div class="col-sm-10">
-              <select ng-model="group.nginxGroupItem.consulId"  class="form-control" >
-                <option value="">--请选择--</option>
-                <option ng-repeat="consul in group.consuls" value="{{consul.consulId}}">{{consul.consulName}}</option>
-              </select>
+              <div class="col-sm-5">
+                <select ng-model="group.nginxGroupItem.registry.registryId"  class="form-control" >
+                  <option value="">未选择</option>
+                  <option ng-repeat="registry in group.registrys" ng-selected="registry.registryId == group.nginxGroupItem.registry.registryId" value="{{registry.registryId}}">{{registry.registryName}}</option>
+                </select>
+              </div>
             </div>
-          </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">域名服务器：</label>
+
+              <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="group.nginxGroupItem.resolver" required>
+              </div>
+            </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -57,26 +64,33 @@
           &times;
         </button>
         <h4 class="modal-title" id="nginxGroupEditLabel">
-          编辑配置组
+          编辑分组
         </h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal" name="nginxGroupForm">
+        <form class="form-horizontal" name="nginxGroupEditForm">
           <div class="form-group">
-            <label class="col-sm-2 control-label">名称：</label>
+            <label class="col-sm-3 control-label">名称：</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-5">
               <input type="text" class="form-control" ng-model="group.nginxGroupItem.groupName" required>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Consul：</label>
+            <label class="col-sm-3 control-label">集群：</label>
 
-            <div class="col-sm-10">
-              <select ng-model="group.nginxGroupItem.consulId"  class="form-control" >
-                <option value="">--请选择--</option>
-                <option ng-repeat="consul in group.consuls" ng-selected="consul.consulId == group.nginxGroupItem.consul.consulId" value="{{consul.consulId}}">{{consul.consulName}}</option>
+            <div class="col-sm-5">
+              <select ng-model="group.nginxGroupItem.registry.registryId"  class="form-control" >
+                <option value="">未选择</option>
+                <option ng-repeat="registry in group.registrys" ng-selected="registry.registryId == group.nginxGroupItem.registry.registryId" value="{{registry.registryId}}">{{registry.registryName}}</option>
               </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">域名服务器：</label>
+
+            <div class="col-sm-9">
+              <input type="text" class="form-control" ng-model="group.nginxGroupItem.resolver" required>
             </div>
           </div>
         </form>
@@ -85,7 +99,7 @@
         <button type="button" class="btn btn-default"
                 data-dismiss="modal">关闭
         </button>
-        <button type="button" class="btn btn-primary" ng-click="group.editNginxGroup(group.nginxGroupItem)" ng-disabled="nginxGroupForm.$invalid">
+        <button type="button" class="btn btn-primary" ng-click="group.editNginxGroup(group.nginxGroupItem)" ng-disabled="nginxGroupEditForm.$invalid">
           确认
         </button>
       </div>
@@ -114,7 +128,7 @@
         <button type="button" class="btn btn-default"
                 data-dismiss="modal">关闭
         </button>
-        <button type="button" class="btn btn-primary" ng-click="group.delNginxGroup(group.nginxGroupItem.nginxGroupId)">
+        <button type="button" class="btn btn-primary" ng-click="group.delNginxGroup(group.nginxGroupItem)">
           确认
         </button>
       </div>
