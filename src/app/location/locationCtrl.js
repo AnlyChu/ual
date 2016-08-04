@@ -33,16 +33,6 @@ class locationCtrl {
 
 		locationScope.getLocation();
 
-
-		// if(locationScope.luasArray[0]){
-		// 	angular.forEach(locationScope.luas,function(item){
-		// 		if(item.luaId == locationScope.luasArray[0]){
-		// 			locationScope.luasList.push(item);
-		// 			locationScope.luasList.push(item);
-		// 		}
-		// 	})
-		// } else if
-
 	}
 
 	luasArrayChange() {
