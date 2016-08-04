@@ -32,11 +32,37 @@ class locationCtrl {
 		});
 
 		locationScope.getLocation();
+
+
+		// if(locationScope.luasArray[0]){
+		// 	angular.forEach(locationScope.luas,function(item){
+		// 		if(item.luaId == locationScope.luasArray[0]){
+		// 			locationScope.luasList.push(item);
+		// 			locationScope.luasList.push(item);
+		// 		}
+		// 	})
+		// } else if
+
+	}
+
+	luasArrayChange() {
+		let locationScope = this;
+		locationScope.luasList = [];
+		angular.forEach(locationScope.luasArray, function (item) {
+			if (item) {
+				angular.forEach(locationScope.luas, function (lua) {
+					if (lua.luaId == item) {
+						locationScope.luasList.push(lua);
+					}
+				})
+			}
+		})
 	}
 
 	initLocationModal() {
 		let locationScope = this;
 		locationScope.luasArray = [];
+		locationScope.luasList = [];
 		locationScope.locationModal = {
 			urimatch: '',
 			internal: '',

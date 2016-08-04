@@ -10,15 +10,15 @@
         <th>集群</th>
         <th>域名服务器</th>
         <th style="text-align: center">
-          <img class="settingImg" src="images/setting.png" data-toggle="modal"
+          <img class="settingImg group-edit" src="images/setting.png" data-toggle="modal"
                ng-click="group.getGroupId(group.nginxInfo,'setting',$event)" title="编辑">
           &nbsp;&nbsp;
           <span class="group-upgrade">
-          <img class="upgradeImg" src="images/upgrade.png" data-toggle="modal"
-               ng-click="group.upgradeNginxGroup(group.nginxInfo)" title="更新">
-          &nbsp;&nbsp;
-          <img src="images/del.png" alt="del" class="delPng"
-               data-toggle="modal" ng-click="group.getGroupId(group.nginxInfo,'del',$event)"/>
+            <img class="upgradeImg" src="images/upgrade.png" data-toggle="modal"
+                ng-click="group.upgradeNginxGroup(group.nginxInfo)" title="更新">
+            &nbsp;&nbsp;
+            <img src="images/del.png" alt="del" class="delPng"
+                data-toggle="modal" ng-click="group.getGroupId(group.nginxInfo,'del',$event)"/>
           </span>
         </th>
 

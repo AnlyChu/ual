@@ -319,5 +319,10 @@ a:focus {
 .group-upgrade{
     position: absolute;
     top: 95px;
-    right: 90px;
+    left: 90%;
+}
+
+.group-edit{
+    position: absolute;
+    left: 90%;
 }

@@ -42,7 +42,7 @@
             <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
               <select ng-model="locationCtrl.locationItem.upstreamId"  class="form-control" ng-disabled="locationCtrl.haveDynamic">
-                <option value="">--请选择--</option>
+                <option value="">未选择</option>
                 <option ng-repeat="upstream in locationCtrl.upstreams" value="{{upstream.upstreamId}}">{{upstream.serviceName}}</option>
               </select>
             </div>
@@ -51,8 +51,8 @@
             <label class="col-sm-3 control-label">认证：</label>
             <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationCtrl.luasArray[0]"  class="form-control" >
-                <option value="">--请选择--</option>
+              <select ng-model="locationCtrl.luasArray[0]"  class="form-control" ng-change="locationCtrl.luasArrayChange()">
+                <option value="">未选择</option>
                 <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'auth'">{{lua.name}}</option>
               </select>
             </div>
@@ -63,44 +63,59 @@
 
             <div class="col-sm-3">
               <!--<input type="text" class="form-control" id="upstream_balancing" ng-model="upstreamBalancing" required>-->
-              <select ng-model="locationCtrl.luasArray[1]"  class="form-control" ng-change="locationCtrl.onChangeLua()">
-                <option value="">--请选择--</option>
+              <select ng-model="locationCtrl.luasArray[1]"  class="form-control" ng-change="locationCtrl.onChangeLua();locationCtrl.luasArrayChange()">
+                <option value="">未选择</option>
                 <option ng-repeat="lua in locationCtrl.luas" value="{{lua.luaId}}" ng-if="lua.type == 'dynamic_proxy'">{{lua.name}}</option>
               </select>
             </div>
           </div>
-          <!--<div class="form-group">-->
-            <!--<label class="col-sm-3 control-label">脚本列表：</label>-->
+          <div class="form-group">
+            <label class="col-sm-3 control-label">脚本列表：</label>
 
-            <!--<div class="col-sm-9">-->
-              <!--&lt;!&ndash;<textarea type="text" class="form-control textarea-modal" ng-model="locationCtrl.locationItem.defaultType"></textarea>&ndash;&gt;-->
-              <!--<table class="table">-->
-                <!--<thead>-->
-                <!--<tr>-->
-                  <!--<th class="model-th">脚本名称</th>-->
-                  <!--<th class="model-th">脚本类型</th>-->
-                  <!--<th class="model-th">执行阶段-->
-                    <!--<img src="images/add.png" alt="add" class="addPng" data-toggle="modal" data-target="#location" title="添加"/>-->
-                  <!--</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-               <!--<tr ng-repeat="lua in locationCtrl.luas">-->
-                 <!--<td>-->
-                   <!--<input type="text" class="form-control model-input" ng-model="lua.name">-->
-                 <!--</td>-->
-                 <!--<td>-->
-                   <!--<input type="text" class="form-control model-input" ng-model="lua.type">-->
-                 <!--</td>-->
-                 <!--<td>-->
-                   <!--<input type="text" class="form-control model-input"-->
-                          <!--ng-model="lua.stage">-->
-                 <!--</td>-->
-               <!--</tr>-->
-                <!--</tbody>-->
-              <!--</table>-->
-            <!--</div>-->
-          <!--</div>-->
+            <div class="col-sm-9">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th class="model-th">脚本名称</th>
+                  <th class="model-th">脚本类型</th>
+                  <th class="model-th">执行阶段</th>
+                  <th>
+                    <img src="images/add.png" alt="add" class="addPng dropdown-toggle" data-toggle="dropdown" title="添加"/>
+                         
+                  <div class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer list-group" style="right: -143px;top: 0;margin:0;padding:0;">
+                      <a  class="dropdown-toggle list-group-item" data-toggle="collapse" ng-repeat="lua in locationCtrl.luas">
+                        {{lua.name}}
+                      </a>
+          </div>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+               <tr ng-repeat="lua in locationCtrl.luasList"  class="nodeList">
+                 <td>
+                   <input type="text" class="form-control" ng-model="lua.name">
+                 </td>
+                 <td>
+                   <input type="text" class="form-control" ng-model="lua.type">
+                 </td>
+                 <td>
+                   <input type="text" class="form-control"
+                          ng-model="lua.stage">
+                 </td>
+                 <td style="vertical-align: middle">
+                    <img src="images/del_gray.png" alt="del" class="delPng" data-toggle="modal"
+                         ng-click="locationCtrl.popNode($index)"
+                         ng-if="locationCtrl.luas.length > 1 && !(lua.type == 'auth' || lua.type == 'dynamic_proxy')"
+                         title="删除"/>
+                    <img src="images/lock.png" alt="del" class="delPng"
+                         ng-if="lua.type == 'auth' || lua.type == 'dynamic_proxy'"
+                         title=""/>
+                  </td>
+               </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
           <div class="form-group" ng-if="advancedSetting">
             <label class="col-sm-3 control-label">代理配置：</label>
 
